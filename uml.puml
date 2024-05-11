@@ -1,0 +1,109 @@
+@startuml
+class NumberleModelTest {
+- NumberleModel model
+~ void setUp()
+~ void testModelInitialization()
+~ void testValidInputHandling()
+~ void testInvalidInputFormat()
+~ void testGameEndCondition()
+}
+
+
+class NumberleModel {
+- String targetEquation
+- List<String> equations
+- List<String> guesses
+- StringBuilder currentGuess
+- int remainingAttempts
+- boolean gameWon
++ void loadEquations()
++ void initialize()
++ boolean processInput(String)
++ boolean isValidInput(String)
++ boolean isCorrectEquation(String)
++ int evaluateExpression(String)
++ boolean isGameOver()
++ boolean isGameWon()
++ String getTargetEquation()
++ StringBuilder getCurrentGuess()
++ void updateGuess(String)
++ int getRemainingAttempts()
++ void startNewGame()
+}
+
+
+class NumberleView {
+- NumberleController controller
+- JFrame frame
+- JTextField inputTextField
+- JPanel guessPanel
+- JButton newGameButton
+- int currentGuessIndex
+- Map<Character,JButton> keyboardButtons
+- Map<Character,Color> keyColors
+- boolean enableRestart
+- void initialize()
+- void initializeGuessPanel()
+- JPanel initializeKeyboard()
+- void startNewGame()
+- void showGameOverDialog()
++ void update(Observable,Object)
+- Map<Character,String> parseKeyFeedback(List<String>)
+- void updateGuessGrid(List<String>)
+- Color getColorFromFeedback(String)
+- void updateKeyboard(Map<Character,String>)
+}
+
+
+class NumberleController {
+- INumberleModel model
+- NumberleView view
++ void setView(NumberleView)
++ boolean processInput(String)
++ void updateGuess(String)
++ boolean isGameOver()
++ boolean isGameWon()
++ String getTargetEquation()
++ StringBuilder getCurrentGuess()
++ int getRemainingAttempts()
++ void startNewGame()
+}
+
+
+class CLIApp {
+- {static} NumberleController controller
+- {static} Scanner scanner
++ {static} void main(String[])
+- {static} void restartGameOption()
+}
+
+
+interface INumberleModel {
+~ {static} int MAX_ATTEMPTS
+~ void loadEquations()
+~ void initialize()
+~ boolean isGameOver()
+~ boolean isGameWon()
+~ String getTargetEquation()
+~ boolean processInput(String)
+~ boolean isValidInput(String)
+~ boolean isCorrectEquation(String)
+~ int evaluateExpression(String)
+~ StringBuilder getCurrentGuess()
+~ void updateGuess(String)
+~ int getRemainingAttempts()
+~ void startNewGame()
+}
+
+
+class GUIApp {
++ {static} void main(String[])
++ {static} void createAndShowGUI()
+}
+
+
+
+INumberleModel <|.. NumberleModel
+Observable <|-- NumberleModel
+Observer <|.. NumberleView
+@enduml
